@@ -30,6 +30,16 @@ Mettre à jour les dépendances:
 
     poetry run python -m ipykernel install --name python-dash-template --user
 
+## Publier la doc du projet
+
+La générer en local
+
+    poetry run nbdev_docs
+
+Déployer automatiquement la doc sur Github.io:
+
+![image.png](index_files/figure-commonmark/0ca9e86a-1-image.png)
+
 ## Générer le module Python de votre code
 
     poetry run nbdev docs
