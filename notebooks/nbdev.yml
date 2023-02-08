@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "python-dash-template"
-  site-url: "https://dataforgoodfr.github.io/python-dash-template/"
+  title: "python_dash_template"
+  site-url: "https://dataforgoodfr.github.io/python_dash_template/"
   description: "Template de projet Dash"
   repo-branch: master
   repo-url: "https://github.com/dataforgoodfr/https://github.com/dataforgoodfr/python-dash-template/"

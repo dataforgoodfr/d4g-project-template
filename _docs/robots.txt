@@ -1,0 +1,1 @@
+Sitemap: https://dataforgoodfr.github.io/python_dash_template/sitemap.xml
