@@ -36,9 +36,12 @@ La générer en local
 
     poetry run nbdev_docs
 
-Déployer automatiquement la doc sur Github.io:
+Elle se trouvera dans le dossier `_docs`.
 
-![image.png](index_files/figure-commonmark/c5495988-1-image.png)
+Elle est également générée et déployer automatiquement par GitHub
+Action, dans la branche `gh-pages`, voici comment configurer Github.io:
+
+![image.png](index_files/figure-commonmark/c09c9c29-1-image.png)
 
 La do est visible sur
 [https://{userid}.github.io/{reponame}](https://dataforgoodfr.github.io/python-dash-template)

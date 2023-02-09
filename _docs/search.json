@@ -32,7 +32,7 @@
     "href": "index.html#publier-la-doc-du-projet",
     "title": "Template DataForGood",
     "section": "Publier la doc du projet",
-    "text": "Publier la doc du projet\nLa générer en local\npoetry run nbdev_docs\nDéployer automatiquement la doc sur Github.io:\n\n\n\nimage.png\n\n\nLa do est visible sur https://{userid}.github.io/{reponame}"
+    "text": "Publier la doc du projet\nLa générer en local\npoetry run nbdev_docs\nElle se trouvera dans le dossier _docs.\nElle est également générée et déployer automatiquement par GitHub Action, dans la branche gh-pages, voici comment configurer Github.io:\n\n\n\nimage.png\n\n\nLa do est visible sur https://{userid}.github.io/{reponame}"
   },
   {
     "objectID": "index.html#générer-le-module-python-de-votre-code",
