@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "codecarbon.html",
+    "href": "codecarbon.html",
+    "title": "python_dash_template",
+    "section": "",
+    "text": "from codecarbon import EmissionsTracker\nfrom time import sleep\nimport timeit\n\n\n\ntracker = EmissionsTracker()\ntracker.start()\n\n[codecarbon INFO @ 21:05:21] [setup] RAM Tracking...\n[codecarbon INFO @ 21:05:21] [setup] GPU Tracking...\n[codecarbon INFO @ 21:05:21] No GPU found.\n[codecarbon INFO @ 21:05:21] [setup] CPU Tracking...\n[codecarbon ERROR @ 21:05:21] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'\n[codecarbon INFO @ 21:05:21] Tracking Intel CPU via RAPL interface\n[codecarbon ERROR @ 21:05:23] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'\n[codecarbon INFO @ 21:05:23] >>> Tracker's metadata:\n[codecarbon INFO @ 21:05:23]   Platform system: Linux-5.15.35-2-pve-x86_64-with-glibc2.31\n[codecarbon INFO @ 21:05:23]   Python version: 3.9.5\n[codecarbon INFO @ 21:05:23]   Available RAM : 29.297 GB\n[codecarbon INFO @ 21:05:23]   CPU count: 6\n[codecarbon INFO @ 21:05:23]   CPU model: Intel(R) Xeon(R) CPU E3-1240 v6 @ 3.70GHz\n[codecarbon INFO @ 21:05:23]   GPU count: None\n[codecarbon INFO @ 21:05:23]   GPU model: None\n\n\n\nt1 = timeit.timeit(stmt='[random.randint(0, 1000) for r in range(10000)]', \n              setup='import random', \n              number=1000\n             )\n\n\nemissions = tracker.stop()\nprint(f\"Emission of the run {emissions} in XXX unit\")\ntracker.final_emissions_data\n\n[codecarbon INFO @ 21:05:35] Energy consumed for RAM : 0.000030 kWh. RAM Power : 10.986328125 W\n[codecarbon INFO @ 21:05:35] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W\n[codecarbon INFO @ 21:05:35] 0.000030 kWh of electricity used since the begining.\n\n\nEmission of the run 1.6380519336962607e-06 in XXX unit\n\n\nEmissionsData(timestamp='2023-02-10T21:05:35', project_name='codecarbon', run_id='792a34ed-7782-4232-a7f1-299f04da5e6e', duration=9.76309871673584, emissions=1.6380519336962607e-06, emissions_rate=0.0001677799212342617, cpu_power=0.0, gpu_power=0.0, ram_power=10.986328125, cpu_energy=0, gpu_energy=0, ram_energy=2.9782762430841105e-05, energy_consumed=2.9782762430841105e-05, country_name='France', country_iso_code='FRA', region='île-de-france', cloud_provider='', cloud_region='', os='Linux-5.15.35-2-pve-x86_64-with-glibc2.31', python_version='3.9.5', cpu_count=6, cpu_model='Intel(R) Xeon(R) CPU E3-1240 v6 @ 3.70GHz', gpu_count=None, gpu_model=None, longitude=2.4075, latitude=48.8323, ram_total_size=29.296875, tracking_mode='machine', on_cloud='N')\n\n\n\nsleep(10)\n\n\nemissions = tracker.stop()\nprint(f\"Emission of the run {emissions} in XXX unit\")\ntracker.final_emissions_data\n\n[codecarbon INFO @ 21:05:46] Energy consumed for RAM : 0.000060 kWh. RAM Power : 10.986328125 W\n[codecarbon INFO @ 21:05:46] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W\n[codecarbon INFO @ 21:05:46] 0.000060 kWh of electricity used since the begining.\n\n\nEmission of the run 3.322356042190222e-06 in XXX unit\n\n\nEmissionsData(timestamp='2023-02-10T21:05:46', project_name='codecarbon', run_id='792a34ed-7782-4232-a7f1-299f04da5e6e', duration=19.801576852798462, emissions=3.322356042190222e-06, emissions_rate=0.00016778239767913683, cpu_power=0.0, gpu_power=0.0, ram_power=10.986328125, cpu_energy=0, gpu_energy=0, ram_energy=6.0406473494367674e-05, energy_consumed=6.0406473494367674e-05, country_name='France', country_iso_code='FRA', region='île-de-france', cloud_provider='', cloud_region='', os='Linux-5.15.35-2-pve-x86_64-with-glibc2.31', python_version='3.9.5', cpu_count=6, cpu_model='Intel(R) Xeon(R) CPU E3-1240 v6 @ 3.70GHz', gpu_count=None, gpu_model=None, longitude=2.4075, latitude=48.8323, ram_total_size=29.296875, tracking_mode='machine', on_cloud='N')"
+  },
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "core",
+    "section": "",
+    "text": "# collapse_hide\ndf_run = pd.DataFrame()\nfor xp in r_xp.json():\n    \n    experiment_id = xp[\"experiment_id\"]\n    url=URL + \"/runs/experiment/\" + experiment_id\n    print(xp[\"name\"], url)\n    r = requests.get(url, timeout=2)\n    assert r.status_code == 200\n    # We keep only the N last run\n    for run in r.json()[-2:]:\n        run_id = run[\"id\"]\n        page = 1\n        #while True:\n        while page<3:\n            url = URL + \"/emissions/run/\" + run_id + \"?size=1000&page=\" + str(page)\n            r = requests.get(url=url, timeout=30)\n            assert r.status_code == 200\n            if r.json()[\"items\"] == []:\n                break\n            df_last_run = pd.DataFrame(r.json()[\"items\"])\n            print(f\"Il y a {len(df_last_run)} émissions dans {url}\")\n            df_last_run[\"datacenter\"] = xp[\"name\"]\n            df_run = pd.concat([df_run, df_last_run])\n            page += 1\n\ndf_run.head(1)\ndf_run.tail(1)\n\nDC5 https://api.codecarbon.io/runs/experiment/0bfa2432-efda-4656-bdb4-f72d15866b0b\nIl y a 102 émissions dans https://api.codecarbon.io/emissions/run/09762fc4-08e5-4f9f-b796-bddd90e7fdad?size=1000&page=1\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/8d2890eb-8e64-4271-9bc9-61b6860b0345?size=1000&page=1\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/8d2890eb-8e64-4271-9bc9-61b6860b0345?size=1000&page=2\nDC2 https://api.codecarbon.io/runs/experiment/ea060644-5303-4a68-8fb2-d0902b269022\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/63ec8a01-e03b-4130-b101-9a4c084f0ddd?size=1000&page=1\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/63ec8a01-e03b-4130-b101-9a4c084f0ddd?size=1000&page=2\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/00d90dd0-6b6c-4ceb-9a8d-78c34cfe48b1?size=1000&page=1\nIl y a 1000 émissions dans https://api.codecarbon.io/emissions/run/00d90dd0-6b6c-4ceb-9a8d-78c34cfe48b1?size=1000&page=2\n\n\n\n\n\n\n  \n    \n      \n      timestamp\n      run_id\n      duration\n      emissions_sum\n      emissions_rate\n      energy_consumed\n      cpu_power\n      gpu_power\n      ram_power\n      cpu_energy\n      gpu_energy\n      ram_energy\n      id\n      datacenter\n    \n  \n  \n    \n      999\n      2022-12-10T20:04:15.174623\n      00d90dd0-6b6c-4ceb-9a8d-78c34cfe48b1\n      303\n      0.000113\n      0.000373\n      0.002061\n      23.761942\n      0.0\n      0.09375\n      0.002053\n      0.0\n      0.000008\n      19288d97-e24d-44fb-85a3-895182984ff2\n      DC2\n    \n  \n\n\n\n\n\nprint(f\"Nombre d'émissions : {len(df_run):,}\")\n\nNombre d'émissions : 6,102\n\n\n\nfig = px.line(df_run, x=\"timestamp\", y=[\"cpu_power\"], color=\"datacenter\")\nfig.show()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Template DataForGood",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation."
+  },
+  {
+    "objectID": "index.html#utiliser-poetry",
+    "href": "index.html#utiliser-poetry",
+    "title": "Template DataForGood",
+    "section": "Utiliser Poetry",
+    "text": "Utiliser Poetry\nInstaller Poetry:\ncurl -sSL https://install.python-poetry.org | python3 -\nInstaller les dépendances:\npoetry install\nAjouter une dépendance:\npoetry add pandas\nMettre à jour les dépendances:\npoetry update"
+  },
+  {
+    "objectID": "index.html#connecter-lenvironnement-à-jupyter",
+    "href": "index.html#connecter-lenvironnement-à-jupyter",
+    "title": "Template DataForGood",
+    "section": "Connecter l’environnement à Jupyter",
+    "text": "Connecter l’environnement à Jupyter\npoetry run python -m ipykernel install --name python-dash-template --user"
+  },
+  {
+    "objectID": "index.html#publier-la-doc-du-projet",
+    "href": "index.html#publier-la-doc-du-projet",
+    "title": "Template DataForGood",
+    "section": "Publier la doc du projet",
+    "text": "Publier la doc du projet\nLa générer en local\npoetry run nbdev_docs\nElle se trouvera dans le dossier _docs.\nElle est également générée et déployer automatiquement par GitHub Action, dans la branche gh-pages, voici comment configurer Github.io:\n\n\n\nimage.png\n\n\nLa do est visible sur https://{userid}.github.io/{reponame}"
+  },
+  {
+    "objectID": "index.html#générer-le-module-python-de-votre-code",
+    "href": "index.html#générer-le-module-python-de-votre-code",
+    "title": "Template DataForGood",
+    "section": "Générer le module Python de votre code",
+    "text": "Générer le module Python de votre code\npoetry run nbdev docs"
+  },
+  {
+    "objectID": "index.html#tester-avec-docker",
+    "href": "index.html#tester-avec-docker",
+    "title": "Template DataForGood",
+    "section": "Tester avec Docker",
+    "text": "Tester avec Docker\ndocker run ."
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "Template DataForGood",
+    "section": "Install",
+    "text": "Install\npip install {{lib_path}}"
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "Template DataForGood",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2"
+  }
+]
