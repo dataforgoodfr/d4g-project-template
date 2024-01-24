@@ -34,46 +34,20 @@ Mettre à jour les dépendances:
 
     poetry update
 
-## Connecter l’environnement à Jupyter
+## Utiliser Jupyter Notebook
 
-    poetry run python -m ipykernel install --name python-dash-template --user
+    jupyter notebook
 
-## Publier la doc du projet
+and check your browser !
 
-La générer en local
+## Lancer les precommit-hook localement
 
-    poetry run nbdev_docs
+[Installer les precommit](https://pre-commit.com/)
 
-Elle se trouvera dans le dossier `_docs`.
 
-Elle est également générée et déployer automatiquement par GitHub
-Action, dans la branche `gh-pages`, voici comment configurer Github.io:
+    pre-commit run --all-files 
+ 
 
-![image.png](index_files/figure-commonmark/c09c9c29-1-image.png)
+## Utiliser Tox pour tester votre code
 
-La do est visible sur
-[https://{userid}.github.io/{reponame}](https://dataforgoodfr.github.io/python-dash-template)
-
-## Générer le module Python de votre code
-
-    poetry run nbdev docs
-
-## Tester avec Docker
-
-    docker run .
-
-## Install
-
-``` sh
-pip install {{lib_path}}
-```
-
-## How to use
-
-Fill me in please! Don’t forget code examples:
-
-``` python
-1+1
-```
-
-    2
+    tox -vv
