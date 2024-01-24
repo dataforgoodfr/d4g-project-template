@@ -8,11 +8,19 @@ documentation.
 
 # Contributing
 
+
+## Use a venv 
+
+    python3 -m venv name-of-your-venv
+
+    source name-of-your-venv/bin/activate
+
+
 ## Utiliser Poetry
 
 [Installer Poetry](https://python-poetry.org/docs/):
 
-    curl -sSL https://install.python-poetry.org | python3 -
+    python3 -m pip install "poetry==1.4.0"
 
 Installer les dépendances:
 
