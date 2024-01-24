@@ -3,7 +3,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "python-template"
+name = "python_template"
 version = "0.1.0"
 description = "Template"
 authors = ["DataForGood"]
