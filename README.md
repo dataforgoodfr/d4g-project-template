@@ -7,7 +7,6 @@ documentation.
 
 # Contributing
 
-
 ## Installer pipx
 
 [Installer pipx](https://pipx.pypa.io/stable/#install-pipx)
@@ -18,20 +17,17 @@ Par exemple pour Ubuntu:
     sudo apt install pipx
     pipx ensurepath
 
-
 ## Installer Poetry
 
 [Installer Poetry](https://python-poetry.org/docs/#installing-with-pipx):
 
     pipx install poetry
 
-
 ## Use a venv
 
     python3 -m venv .venv
 
     source .venv/bin/activate
-
 
 ## Utiliser Poetry
 
