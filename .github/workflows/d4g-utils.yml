@@ -34,8 +34,7 @@ jobs:
           
           echo "::set-output name=repos::$repos"
         env:
-          GITHUB_TOKEN: ${{ secrets.D4GTECH_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.D4GTECH_TOKEN }}
 
       - name: Copy files to organization repos
         run: |
@@ -48,7 +47,10 @@ jobs:
               echo "repo_using_template: $repo"
             fi
           done
-          
+        env:
+          GH_TOKEN: ${{ secrets.D4GTECH_TOKEN }}
+  
+            
       #     for repo in ${{ steps.org_repos.outputs.repos }}; do
       #       # Clone the repository
       #       git clone "https://github.com/$repo" target_repo
