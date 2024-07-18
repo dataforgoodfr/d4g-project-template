@@ -1,0 +1,35 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[shellscript]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  // "[yaml]": {
+  //     "editor.defaultFormatter": "kennylong.kubernetes-yaml-formatter",
+  //     "editor.tabSize": 4
+  // },
+  "css.validate": false,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+
+  // Python
+  "ruff.configurationPreference": "filesystemFirst",
+  // "pre-commit-helper.runOnSave": "all hooks",
+
+  "ruff.fixAll": true,
+  "ruff.lint.run": "onSave",
+  "ruff.format.run": "onSave",
+
+  "evenBetterToml.formatter.allowedBlankLines": 2,
+  "evenBetterToml.formatter.columnWidth": 96,
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  }
+}

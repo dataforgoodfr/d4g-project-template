@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+# shellcheck disable=SC1090
+
+set -Eeuo pipefail
+# trap cleanup SIGINT SIGTERM ERR EXIT
+
+# Sane defaults
+DEBUG="true"
+RUN_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+
+# Export ENV vars for shell execution pipe
+# Init root execution with d4g tag to empty string
+export D4G=""
+# This is the absolute path of the project root directory
+export PROJECT_DIR="$RUN_DIR"
+# Get the absolute path of the ini file
+export INI_FILE="$PROJECT_DIR/d4g.ini"
+# Get the absolute path of the .venv directory
+export VENV_DIR="$PROJECT_DIR/.venv"
+# Get the absolute path of the .d4g-tools directory
+export D4G_TOOLS="$PROJECT_DIR/.d4g-tools"
+
+export LIB_DIR="$D4G_TOOLS/lib"
+export BIN_DIR="$D4G_TOOLS/bin"
+
+export LOG_DIR="$D4G_TOOLS/.log"
+mkdir -p "$LOG_DIR" &>/dev/null
+export GENERATED="$D4G_TOOLS/.generated"
+mkdir -p "$GENERATED" &>/dev/null
+
+# IMPORTANT AND NECESSARY: Load common functions
+source "$LIB_DIR"/common.sh
+
+usage() {
+    cat <<EOF
+USAGE ${0} [-v] [-h]
+
+This is a description of the script.
+Honestly, write whatever you want.
+
+Supported parameters :
+-h, --help : display this message
+-v, --verbose, --debug : enable enhanced logging
+
+EOF
+    exit 1
+}
+
+parse_params() {
+    if [ $# -gt 3 ]; then
+        echo "Too many parameters provided"
+        usage
+    fi
+
+    STAGE="dev"
+    CHECK="false"
+    PROD="false"
+    INIT="false"
+    DEPLOY="false"
+    MEMORY="start"
+
+    while :; do
+        case "${1-}" in
+        -h | --help)
+            usage
+            ;;
+        -v | --verbose | --debug)
+            DEBUG="true"
+            ;;
+        --check*)
+            CHECK="true"
+            ;;
+        --init*)
+            INIT="true"
+            ;;
+        --deploy*)
+            DEPLOY="true"
+            ;;
+        --stage=*)
+            STAGE="${1#*=}"
+            ;;
+        --platform=*)
+            PLATFORM="${1#*=}"
+            ;;
+        --memory=*)
+            MEMORY="${1#*=}"
+            ;;
+        -?*)
+            echo "Unknown option: $1"
+            usage
+            ;;
+        *)
+            break
+            ;;
+        esac
+        shift
+    done
+
+    # if STAGE begins with p
+    if [ "${STAGE:0:1}" == "p" ]; then
+        PROD="true"
+    fi
+
+    export DEBUG=$DEBUG
+    export PLATFORM=$PLATFORM
+    export STAGE=$STAGE
+    export PROD=$PROD
+
+    # debug "DEBUG=$DEBUG"
+    # debug "PLATFORM=$PLATFORM"
+    # debug "STAGE=$STAGE"
+    # debug "PROD=$PROD"
+    return 0
+}
+
+parse_params "$@"
+
+if [ "$CHECK" == "true" ]; then
+    "$BIN_DIR"/check.sh
+fi
+
+if [ "$INIT" == "true" ]; then
+    "$BIN_DIR"/init.sh
+fi
+
+if [ "$DEPLOY" == "true" ]; then
+    info "Deploy stage: $STAGE (Production=$PROD)"
+    info "Deploy $PLATFORM on http port $HTTP_PORT..."
+    "$BIN_DIR/$PLATFORM/$PLATFORM.sh"
+    #--project-root="$RUN_DIR" --prod="$PROD" --port="$PORT"
+fi
+
+if [ ! "$MEMORY" == "false" ]; then
+    "$BIN_DIR"/memory.sh --action="$MEMORY"
+fi

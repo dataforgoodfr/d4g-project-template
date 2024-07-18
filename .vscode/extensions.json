@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    //default
+    "esbenp.prettier-vscode",
+    //python, jupyter
+    "charliermarsh.ruff",
+    //tomml
+    "tamasfe.even-better-toml",
+    //shell
+    "foxundermoon.shell-format"
+  ]
+}

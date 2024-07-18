@@ -136,8 +136,10 @@ venv.bak/
 .spyderproject
 .spyproject
 
-# VS Code
-.vscode
+# VS Code is default reco from D4G
+# We use it to help linting and formatting code
+# Config setting and Extension recommandations
+#.vscode
 
 # Rope project settings
 .ropeproject
@@ -159,5 +161,15 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# D4G
 # Precommit hooks: ruff cache
 .ruff_cache
+
+# Used by d4g-tools
+# DO NOT REMOVE ANY OF THESE
+
+!.d4g-tools/**
+.generated
+.gi-*
+.log
+

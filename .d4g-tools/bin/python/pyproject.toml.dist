@@ -3,39 +3,29 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "D4GPROJECT-TO-RENAME"
+name = "$PROJECT_NAME"
 version = "0.1.0"
-description = "Project Description to be modified"
-authors = ["DataForGood"]
+description = "$PROJECT_DESCRIPTION"
+authors = ["DataForGood", "$PROJECT_AUTHORS"]
 license = " MIT"
 readme = "README.md"
-# Majority of D4G projects are not used as packages
-# 2 options:
-# 1. This project is NOT/will NOT be used as a package
-# package-mode = false
-# 2. Replace with your project's main module/folder
-packages = [{ include = "PROJECT_TO_RENAME" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+humanize = "^4.9.0"
+# TODO
+taipy = "^3.1.1"
+taipy-gui = "^3.1.2"
+plotly = "^5.22.0"
+numpy = "^1.26.4"
+pillow = "^10.4.0"
 
-# Data Science dependencies
-[tool.poetry.group.data.dependencies]
-pandas = "^2.0.0"
-numpy = ">=1.26"
-matplotlib = "^3.9.0"
-
-# Code Linting and Formatting dependencies
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"
-ruff = "^0.4.10"
-
-# Test dependencies
-[tool.poetry.group.test.dependencies]
-pytest = "^8.0.0"
-pytest-mock = "*"
+pytest = "^8.2.2"
 tox = "^4.4.8"
-
+ruff = "^0.5.0"
+locust = "^2.29.0"
 
 # D4G: Python Linting and Formatting
 [tool.ruff]
@@ -93,7 +83,7 @@ exclude = [
 # Numpy2.0:NPY201
 
 select = ["E4", "E7", "E9", "F", "B", "NPY201"]
-ignore = ["E501"]
+ignore = ["E501", "E712"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

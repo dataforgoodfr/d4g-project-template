@@ -1,21 +1,58 @@
 repos:
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    # Ruff version.
-    rev: "v0.2.1"
-    hooks:
-      - id: ruff
-        args: [--fix]
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
-    hooks:
-      - id: check-merge-conflict
-      - id: mixed-line-ending
-  #- repo: https://github.com/pycqa/bandit
-  #  rev: 1.7.4
-  #  hooks:
-  #  - id: bandit
-  #    exclude: tests/
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.1
-    hooks:
-      - id: python-safety-dependencies-check
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+  - id: check-merge-conflict
+    #   - id: mixed-line-ending
+    #   - id: end-of-file-fixer
+    #   - id: check-ast
+    #   - id: check-builtin-literals
+    #   - id: check-yaml
+    #   - id: check-toml
+    #   - id: end-of-file-fixer
+    # - id: trailing-whitespace
+    # - repo: https://github.com/astral-sh/ruff-pre-commit
+    #   rev: v0.4.9
+    #   hooks:
+    #   - id: ruff
+    #     types_or: [python, pyi, jupyter]
+    #     args: [--fix]
+    #   - id: ruff-format
+    #     # args: [--config, format.docstring-code-format=true, --config, format.docstring-code-line-length=72]
+    #     types_or: [python, pyi, jupyter]
+
+
+
+
+# -------------------------------------------------------------------------------
+# OLD VERSION
+# repos:
+
+# - repo: https://github.com/charliermarsh/ruff-pre-commit
+#   # Ruff version.
+#   rev: "v0.4.9"
+#   hooks:
+#   - id: ruff
+#     args: [--fix, --exit-zero, --config /home/nicog/_work/d4g/d4g-project-template/pyproject.toml]
+
+# - repo: https://github.com/pre-commit/pre-commit-hooks
+#   rev: v4.3.0
+#   hooks:
+#   - id: check-merge-conflict
+#   - id: mixed-line-ending
+
+# - repo: https://github.com/charliermarsh/ruff-pre-commit
+#   # Ruff version.
+#   rev: "v0.4.9"
+#   hooks:
+#   - id: ruff-format
+
+# #- repo: https://github.com/pycqa/bandit
+# #  rev: 1.7.4
+# #  hooks:
+# #  - id: bandit
+# #    exclude: tests/
+# - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+#   rev: v1.3.3
+#   hooks:
+#   - id: python-safety-dependencies-check
