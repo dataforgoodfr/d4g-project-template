@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  uwsgi_app:
+    image: python:3.9-slim-buster
+    working_dir: /app
+    volumes:
+      - ${APP_DIR}:/app
+      - ./uwsgi.ini:/app/uwsgi.ini
+    command: ["uwsgi", "--ini", "/app/uwsgi.ini"]
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "${HTTP_PORT}:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - uwsgi_app

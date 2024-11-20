@@ -1,0 +1,20 @@
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim-buster
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+ARG APP_DIR
+COPY ${APP_DIR} .
+
+# Expose the port the app will run on
+ARG PORT
+EXPOSE ${PORT}
+
+# Run the uWSGI server
+CMD ["uwsgi", "--http", "0.0.0.0:${PORT}", "--wsgi-file", "${APP_DIR}/app.py", "--callable", "app", "--master", "--processes", "4", "--threads", "2", "--logto", "/dev/stdout"]

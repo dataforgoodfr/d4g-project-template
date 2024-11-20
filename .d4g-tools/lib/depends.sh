@@ -38,6 +38,7 @@ if [ "$(echo "$NODE_VERSION" | cut -c 2-3)" -lt 18 ]; then
     exit 1
 fi
 
+# TODO brew??
 # Install brew if not installed.
 # We will use brew to install dependencies on macOS and linux
 if ! command -v brew &>/dev/null; then

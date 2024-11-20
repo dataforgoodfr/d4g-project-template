@@ -40,7 +40,6 @@ After=syslog.target
 
 [Service]
 ExecStart=$VENV_DIR/bin/uwsgi --ini $BIN_DIR/uwsgi/uwsgi.ini:$STAGE --socket /tmp/$PROJECT_NAME.$STAGE.uwsgi.sock --module $PROJECT_NAME.main:web_app
-# ExecStart=$VENV_DIR/bin/uwsgi --ini $BIN_DIR/uwsgi/uwsgi.ini:$STAGE --http-socket :$APP_PORT
 WorkingDirectory=$PROJECT_DIR
 Restart=always
 KillSignal=SIGINT
@@ -73,7 +72,7 @@ if [ "$PROD" == "false" ]; then
     echo """
     server {
         listen $HTTP_PORT;
-        server_name localhost;
+        server_name $DOMAIN;
 
         location / {
             include uwsgi_params
