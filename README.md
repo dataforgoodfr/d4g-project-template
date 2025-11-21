@@ -5,57 +5,31 @@ documentation.
 
 # Contributing
 
-## Installer Poetry
 
-Plusieurs [méthodes d'installation](https://python-poetry.org/docs/#installation) sont décrites dans la documentation de poetry dont:
+## Installation
 
-- avec pipx
-- avec l'installateur officiel
+- [Installation de Python](#installation-de-python)
 
-Chaque méthode a ses avantages et inconvénients. Par exemple, la méthode pipx nécessite d'installer pipx au préable, l'installateur officiel utilise curl pour télécharger un script qui doit ensuite être exécuté et comporte des instructions spécifiques pour la completion des commandes poetry selon le shell utilisé (bash, zsh, etc...).
+Ce projet utilise [uv](https://docs.astral.sh/uv/) pour la gestion des dépendances Python. Il est préréquis pour l'installation de ce projet.
 
-L'avantage de pipx est que l'installation de pipx est documentée pour linux, windows et macos. D'autre part, les outils installées avec pipx bénéficient d'un environment d'exécution isolé, ce qui est permet de fiabiliser leur fonctionnement. Finalement, l'installation de poetry, voire d'autres outils est relativement simple avec pipx.
+Une fois installé, il suffit de lancer la commande suivante pour installer la version de Python adéquate, créer un environnement virtuel et installer les dépendances du projet.
 
-Cependant, libre à toi d'utiliser la méthode qui te convient le mieux ! Quelque soit la méthode choisie, il est important de ne pas installer poetry dans l'environnement virtuel qui sera créé un peu plus tard dans ce README pour les dépendances de la base de code de ce repo git.
+```bash
+uv sync
+```
 
-### Installation de Poetry avec pipx
+A l'usage, si vous utilisez VSCode, l'environnement virtuel sera automatiquement activé lorsque vous ouvrirez le projet. Sinon, il suffit de l'activer manuellement avec la commande suivante :
 
-Suivre les instructions pour [installer pipx](https://pipx.pypa.io/stable/#install-pipx) selon ta plateforme (linux, windows, etc...)
+```bash
+source .venv/bin/activate
+```
 
-Par exemple pour Ubuntu 23.04+:
+Ou alors, utilisez la commande `uv run ...` (au lieu de `python ...`) pour lancer un script Python. Par exemple:
 
-    sudo apt update
-    sudo apt install pipx
-    pipx ensurepath
+```bash
+uv run pipelines/run.py run build_database
+```
 
-[Installer Poetry avec pipx](https://python-poetry.org/docs/#installing-with-pipx):
-
-    pipx install poetry
-
-### Installation de Poetry avec l'installateur officiel
-
-L'installation avec l'installateur officiel nécessitant quelques étapes supplémentaires,
-se référer à la [documentation officielle](https://python-poetry.org/docs/#installing-with-the-official-installer).
-
-## Utiliser un venv python
-
-    python3 -m venv .venv
-
-    source .venv/bin/activate
-
-## Utiliser Poetry
-
-Installer les dépendances:
-
-    poetry install
-
-Ajouter une dépendance:
-
-    poetry add pandas
-
-Mettre à jour les dépendances:
-
-    poetry update
 
 ## Lancer les precommit-hook localement
 
