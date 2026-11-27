@@ -1,42 +1,32 @@
-# Template DataForGood
+# Template Data For Good
 
-This file will become your README and also the index of your
-documentation.
+Point de départ pour les projets Data For Good : un front Next.js, une API FastAPI (optionnelle), une image Docker prête pour Clever Cloud et une CI qui appelle [d4g-ci](https://github.com/dataforgoodfr/d4g-ci).
 
-# Contributing
-
-
-## Installation
-
-- [Installation de Python](#installation-de-python)
-
-Ce projet utilise [uv](https://docs.astral.sh/uv/) pour la gestion des dépendances Python. Il est préréquis pour l'installation de ce projet.
-
-Une fois installé, il suffit de lancer la commande suivante pour installer la version de Python adéquate, créer un environnement virtuel et installer les dépendances du projet.
-
-```bash
-uv sync
+```
+frontend/   Next.js (TypeScript, Tailwind), exporté en site statique
+backend/    FastAPI, géré avec uv
+Dockerfile  une seule image : FastAPI sert l'API sous /api et le site pour le reste
 ```
 
-A l'usage, si vous utilisez VSCode, l'environnement virtuel sera automatiquement activé lorsque vous ouvrirez le projet. Sinon, il suffit de l'activer manuellement avec la commande suivante :
+## Démarrer
 
 ```bash
-source .venv/bin/activate
+docker compose up=
 ```
 
-Ou alors, utilisez la commande `uv run ...` (au lieu de `python ...`) pour lancer un script Python. Par exemple:
-
-```bash
-uv run pipelines/run.py run build_database
-```
+Le site est sur http://localhost:3000, la doc de l'API sur http://localhost:3000/api/docs.
 
 
-## Lancer les precommit-hook localement
+Hooks pre-commit : `uvx pre-commit install`.
 
-[Installer les precommit](https://pre-commit.com/)
+## Pas besoin d'API ?
 
-    pre-commit run --all-files
+Supprimer `backend/`, le job `backend` de `.github/workflows/ci.yml`, le service `backend` de `compose.yaml` et la partie Python du `Dockerfile`. Le dossier `frontend/out` peut aussi être déployé comme site statique.
 
-## Utiliser Tox pour tester votre code
+## Déployer sur Clever Cloud
 
-    tox -vv
+1. Créer une application Docker sur Clever Cloud.
+2. Dans *Settings > Environments*, créer un environnement `prod` avec la variable `CLEVER_APP_ID` et les secrets `CLEVER_TOKEN` et `CLEVER_SECRET`.
+3. Dans *Settings > Secrets and variables > Actions*, ajouter la variable `DEPLOY` à `true`.
+
+Chaque push sur `main` déploie alors l'application une fois la CI passée.

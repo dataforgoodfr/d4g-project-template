@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      target: backend
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync
+          path: backend
+          target: /app
+        - action: rebuild
+          path: backend/uv.lock
+
+  frontend:
+    build:
+      target: frontend
+    environment:
+      API_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - action: sync
+          path: frontend
+          target: /app
+        - action: rebuild
+          path: frontend/package-lock.json
