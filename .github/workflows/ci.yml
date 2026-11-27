@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  pre-commit:
+    uses: dataforgoodfr/d4g-ci/.github/workflows/ci-pre-commit.yml@1d65bf6f696c4fd1f05b0a065c8828a025e7f602 # v0.1.0
+
+  backend:
+    uses: dataforgoodfr/d4g-ci/.github/workflows/ci-python.yml@1d65bf6f696c4fd1f05b0a065c8828a025e7f602 # v0.1.0
+    with:
+      working-directory: backend
+
+  frontend:
+    uses: dataforgoodfr/d4g-ci/.github/workflows/ci-node.yml@1d65bf6f696c4fd1f05b0a065c8828a025e7f602 # v0.1.0
+    with:
+      working-directory: frontend
+
+  docker:
+    uses: dataforgoodfr/d4g-ci/.github/workflows/ci-docker.yml@1d65bf6f696c4fd1f05b0a065c8828a025e7f602 # v0.1.0
+    with:
+      healthcheck-path: /api/health
+
+  deploy:
+    needs: [pre-commit, backend, frontend, docker]
+    if: github.event_name == 'push' && vars.DEPLOY == 'true'
+    uses: dataforgoodfr/d4g-ci/.github/workflows/cd-clever-cloud.yml@1d65bf6f696c4fd1f05b0a065c8828a025e7f602 # v0.1.0
+    with:
+      environment: prod
+    secrets: inherit
